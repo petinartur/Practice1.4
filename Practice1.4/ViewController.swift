@@ -20,28 +20,24 @@ class ViewController: UIViewController {
     @IBOutlet weak var blueSlider: UISlider!
     
     override func viewDidLoad() {
-        super.viewDidLoad()//
+        super.viewDidLoad()
+        
         viewColor.layer.cornerRadius = 10
         
         updateColor()
-        
-        redLabel.text = String(format: "%.2f", redSlider.value)
-        greenLabel.text = String(format: "%.2f", greenSlider.value)
-        bleuLabel.text = String(format: "%.2f", blueSlider.value)
+        setValue(for: redLabel, greenLabel, bleuLabel)
     }
 
-    @IBAction func redSliderActiv() {
-        updateColor()
-        redLabel.text = String(format: "%.2f", redSlider.value)
-    }
     
-    @IBAction func greenSliderActiv() {
+    @IBAction func rgbSlider(_ sender: UISlider) {
         updateColor()
-        greenLabel.text = String(format: "%.2f", greenSlider.value)
-    }
-    @IBAction func blueSliderActiv() {
-        updateColor()
-        bleuLabel.text = String(format: "%.2f", blueSlider.value)
+        
+        switch sender {
+        case redSlider: setValue(for: redLabel)
+        case greenSlider: setValue(for: greenLabel)
+        default: setValue(for: bleuLabel)
+            
+        }
     }
     
     private func updateColor(){
@@ -50,5 +46,22 @@ class ViewController: UIViewController {
         let blue = CGFloat(blueSlider.value)
         viewColor.backgroundColor = UIColor(red: red, green: green, blue: blue, alpha: 1)
         
+    }
+    
+    private func setValue(for labels: UILabel...) {
+        labels.forEach { label in
+            switch label {
+            case redLabel:
+                label.text = stirng(from: redSlider)
+            case greenLabel:
+                label.text = stirng(from: greenSlider)
+            default:
+                label.text = stirng(from: blueSlider)
+            }
+        }
+    }
+    
+    private func stirng(from slider: UISlider) -> String {
+        String(format: "%.2f", slider.value)
     }
 }
