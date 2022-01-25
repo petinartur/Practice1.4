@@ -1,13 +1,12 @@
 //
 //  ViewController.swift
 //  Practice1.4
-//
 //  Created by Артур Петин on 19.10.2021.
 //
 
 import UIKit
 
-class ViewController: UIViewController {
+class ColorViewController: UIViewController {
 
     @IBOutlet weak var viewColor: UIView!
     
@@ -19,8 +18,13 @@ class ViewController: UIViewController {
     @IBOutlet weak var greenSlider: UISlider!
     @IBOutlet weak var blueSlider: UISlider!
     
+    @IBOutlet var redTextField: UITextField!
+    @IBOutlet var greenTextField: UITextField!
+    @IBOutlet var blueTextField: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.hidesBackButton = true
         
         viewColor.layer.cornerRadius = 10
         
@@ -36,9 +40,13 @@ class ViewController: UIViewController {
         case redSlider: setValue(for: redLabel)
         case greenSlider: setValue(for: greenLabel)
         default: setValue(for: bleuLabel)
-            
         }
     }
+    
+    @IBAction func DoneButtonPressed() {
+        
+    }
+    
     
     private func updateColor(){
         let red = CGFloat(redSlider.value)
@@ -52,16 +60,16 @@ class ViewController: UIViewController {
         labels.forEach { label in
             switch label {
             case redLabel:
-                label.text = stirng(from: redSlider)
+                label.text = updateName(from: redSlider)
             case greenLabel:
-                label.text = stirng(from: greenSlider)
+                label.text = updateName(from: greenSlider)
             default:
-                label.text = stirng(from: blueSlider)
+                label.text = updateName(from: blueSlider)
             }
         }
     }
     
-    private func stirng(from slider: UISlider) -> String {
+    private func updateName(from slider: UISlider) -> String {
         String(format: "%.2f", slider.value)
     }
 }
