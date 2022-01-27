@@ -6,6 +6,8 @@
 
 import UIKit
 
+
+
 class ColorViewController: UIViewController {
 
     @IBOutlet weak var viewColor: UIView!
@@ -22,6 +24,8 @@ class ColorViewController: UIViewController {
     @IBOutlet var greenTextField: UITextField!
     @IBOutlet var blueTextField: UITextField!
     
+    var delegate: backgorundColorDelegate!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.hidesBackButton = true
@@ -30,6 +34,8 @@ class ColorViewController: UIViewController {
         
         updateColor()
         setValue(for: redLabel, greenLabel, bleuLabel)
+        
+        
     }
 
     
@@ -43,8 +49,14 @@ class ColorViewController: UIViewController {
         }
     }
     
+    
+    
     @IBAction func DoneButtonPressed() {
-        
+        delegate.setColot(
+            for: CGFloat(redSlider.value),
+               green: CGFloat(greenSlider.value),
+               blue: CGFloat(blueSlider.value)
+        )
     }
     
     
