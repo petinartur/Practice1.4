@@ -24,6 +24,10 @@ class ColorViewController: UIViewController {
     @IBOutlet var greenTextField: UITextField!
     @IBOutlet var blueTextField: UITextField!
     
+    var red: CGFloat = 0
+    var green: CGFloat = 0
+    var blue: CGFloat = 0
+    
     var delegate: backgorundColorDelegate!
     
     override func viewDidLoad() {
@@ -32,9 +36,14 @@ class ColorViewController: UIViewController {
         
         viewColor.layer.cornerRadius = 10
         
+        redSlider.value = Float(red)
+        greenSlider.value = Float(green)
+        blueSlider.value = Float(blue)
+        
         updateColor()
         setValue(for: redLabel, greenLabel, bleuLabel)
         
+        //viewColor.backgroundColor = UIColor(red: red, green: green, blue: blue, alpha: 1)
         
     }
 
@@ -53,9 +62,9 @@ class ColorViewController: UIViewController {
     
     @IBAction func DoneButtonPressed() {
         delegate.setColot(
-            for: CGFloat(redSlider.value),
-               green: CGFloat(greenSlider.value),
-               blue: CGFloat(blueSlider.value)
+            red: CGFloat(redSlider.value),
+            green: CGFloat(greenSlider.value),
+            blue: CGFloat(blueSlider.value)
         )
     }
     
