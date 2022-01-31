@@ -39,12 +39,15 @@ class ColorViewController: UIViewController {
         redSlider.value = Float(red)
         greenSlider.value = Float(green)
         blueSlider.value = Float(blue)
+
         
         updateColor()
         setValue(for: redLabel, greenLabel, bleuLabel)
+        setValueTextField(for: redTextField, greenTextField, blueTextField)
         
-        //viewColor.backgroundColor = UIColor(red: red, green: green, blue: blue, alpha: 1)
-        
+        redTextField.delegate = self
+        greenTextField.delegate = self
+        blueTextField.delegate = self
     }
 
     
@@ -55,6 +58,12 @@ class ColorViewController: UIViewController {
         case redSlider: setValue(for: redLabel)
         case greenSlider: setValue(for: greenLabel)
         default: setValue(for: bleuLabel)
+        }
+        
+        switch sender {
+        case redSlider: setValueTextField(for: redTextField)
+        case greenSlider: setValueTextField(for: greenTextField)
+        default: setValueTextField(for: blueTextField)
         }
     }
     
@@ -90,7 +99,48 @@ class ColorViewController: UIViewController {
         }
     }
     
+    private func setValueTextField(for textflieds: UITextField...) {
+        textflieds.forEach { textfield in
+            switch textfield {
+            case redTextField:
+                textfield.text = updateName(from: redSlider)
+            case greenTextField:
+                textfield.text = updateName(from: greenSlider)
+            default:
+                textfield.text = updateName(from: blueSlider)
+            }
+            
+        }
+    }
+    
     private func updateName(from slider: UISlider) -> String {
         String(format: "%.2f", slider.value)
     }
+    
+    // MARK: - Методы для работы с клавиатурой
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super .touchesBegan(touches, with: event)
+        view.endEditing(true)
+    }
+
 }
+
+extension ColorViewController: UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let newValue = textField.text else {return}
+        guard let sliderValue = Float(newValue) else {return}
+        
+        if textField == redTextField {
+            redSlider.value = sliderValue
+            redLabel.text = updateName(from: redSlider)
+        } else if textField == greenTextField {
+            greenSlider.value = sliderValue
+            greenLabel.text = updateName(from: greenSlider)
+        } else {
+            blueSlider.value = sliderValue
+            bleuLabel.text = updateName(from: blueSlider)
+        }
+        updateColor()
+    }
+}
+
