@@ -10,19 +10,12 @@ import UIKit
 protocol backgorundColorDelegate {
     func setColot(red: CGFloat, green: CGFloat, blue: CGFloat)
 }
-class StartViewController: UIViewController, backgorundColorDelegate {
-    
-    func setColot(red: CGFloat, green: CGFloat, blue: CGFloat) {
-        view.backgroundColor = UIColor(red: red, green: green, blue: blue, alpha: 1)
-    }
+
+class StartViewController: UIViewController {
     
     var red: CGFloat = 0
     var green: CGFloat = 0
     var blue: CGFloat = 0
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-    }
     
      func vorkWithColor() {
         let backgroundcolod: UIColor = view.backgroundColor!
@@ -54,5 +47,11 @@ extension UIColor {
     var components: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) {
         let coreImageColor = self.coreImageColor
         return (coreImageColor.red, coreImageColor.green, coreImageColor.blue, coreImageColor.alpha)
+    }
+}
+
+extension StartViewController: backgorundColorDelegate {
+    func setColot(red: CGFloat, green: CGFloat, blue: CGFloat) {
+        view.backgroundColor = UIColor(red: red, green: green, blue: blue, alpha: 1)
     }
 }
