@@ -10,7 +10,7 @@ import UIKit
 
 class ColorViewController: UIViewController {
 
-    @IBOutlet weak var viewColor: UIView!
+    @IBOutlet weak var colorView: UIView!
     
     @IBOutlet weak var redLabel: UILabel!
     @IBOutlet weak var greenLabel: UILabel!
@@ -24,26 +24,19 @@ class ColorViewController: UIViewController {
     @IBOutlet var greenTextField: UITextField!
     @IBOutlet var blueTextField: UITextField!
     
-    var red: CGFloat = 0
-    var green: CGFloat = 0
-    var blue: CGFloat = 0
-    
-    var delegate: backgorundColorDelegate!
+    var delegate: ColorViewControllerDelegate!
+    var viewColor: UIColor!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.hidesBackButton = true
         
-        viewColor.layer.cornerRadius = 10
+        colorView.layer.cornerRadius = 10
+        colorView.backgroundColor = viewColor
         
-        redSlider.value = Float(red)
-        greenSlider.value = Float(green)
-        blueSlider.value = Float(blue)
-
-        
-        updateColor()
+        setSlider()
         setValue(for: redLabel, greenLabel, bleuLabel)
-        setValueTextField(for: redTextField, greenTextField, blueTextField)
+        setValue(for: redTextField, greenTextField, blueTextField)
         
         redTextField.delegate = self
         greenTextField.delegate = self
@@ -55,34 +48,35 @@ class ColorViewController: UIViewController {
         updateColor()
         
         switch sender {
-        case redSlider: setValue(for: redLabel)
-        case greenSlider: setValue(for: greenLabel)
-        default: setValue(for: bleuLabel)
+        case redSlider:
+            setValue(for: redLabel)
+            setValue(for: redTextField)
+        case greenSlider:
+            setValue(for: greenLabel)
+            setValue(for: greenTextField)
+        default:
+            setValue(for: bleuLabel)
+            setValue(for: blueTextField)
         }
         
-        switch sender {
-        case redSlider: setValueTextField(for: redTextField)
-        case greenSlider: setValueTextField(for: greenTextField)
-        default: setValueTextField(for: blueTextField)
-        }
+        updateColor()
     }
     
     
     
     @IBAction func DoneButtonPressed() {
-        delegate.setColot(
-            red: CGFloat(redSlider.value),
-            green: CGFloat(greenSlider.value),
-            blue: CGFloat(blueSlider.value)
-        )
+        delegate?.setColor(colorView.backgroundColor ?? .white)
+        dismiss(animated: true)
     }
     
     
     private func updateColor(){
-        let red = CGFloat(redSlider.value)
-        let green = CGFloat(greenSlider.value)
-        let blue = CGFloat(blueSlider.value)
-        viewColor.backgroundColor = UIColor(red: red, green: green, blue: blue, alpha: 1)
+        colorView.backgroundColor = UIColor(
+            red: CGFloat(redSlider.value),
+            green: CGFloat(greenSlider.value),
+            blue: CGFloat(blueSlider.value),
+            alpha: 1
+        )
         
     }
     
@@ -99,7 +93,7 @@ class ColorViewController: UIViewController {
         }
     }
     
-    private func setValueTextField(for textflieds: UITextField...) {
+    private func setValue(for textflieds: UITextField...) {
         textflieds.forEach { textfield in
             switch textfield {
             case redTextField:
@@ -113,34 +107,53 @@ class ColorViewController: UIViewController {
         }
     }
     
+    private func setSlider() {
+        let ciColor = CIColor(color: viewColor)
+        
+        redSlider.value = Float(ciColor.red)
+        greenSlider.value = Float(ciColor.green)
+        blueSlider.value = Float(ciColor.blue)
+    }
+    
     private func updateName(from slider: UISlider) -> String {
         String(format: "%.2f", slider.value)
     }
     
-    // MARK: - Методы для работы с клавиатурой
+    private func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(okAction)
+        present(alert, animated: true)
+    }
+    
+}
+
+extension ColorViewController: UITextFieldDelegate {
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super .touchesBegan(touches, with: event)
         view.endEditing(true)
     }
-
-}
-
-extension ColorViewController: UITextFieldDelegate {
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
-        guard let newValue = textField.text else {return}
-        guard let sliderValue = Float(newValue) else {return}
+        guard let text = textField.text else { return }
         
-        if textField == redTextField {
-            redSlider.value = sliderValue
-            redLabel.text = updateName(from: redSlider)
-        } else if textField == greenTextField {
-            greenSlider.value = sliderValue
-            greenLabel.text = updateName(from: greenSlider)
-        } else {
-            blueSlider.value = sliderValue
-            bleuLabel.text = updateName(from: blueSlider)
+        if let currentValue = Float(text) {
+            switch textField {
+            case redTextField:
+                redSlider.setValue(currentValue, animated: true)
+                setValue(for: redLabel)
+            case greenTextField:
+                greenSlider.setValue(currentValue, animated: true)
+                setValue(for: greenLabel)
+            default:
+                blueSlider.setValue(currentValue, animated: true)
+                setValue(for: bleuLabel)
+            }
+            updateColor()
+            return
         }
-        updateColor()
+        showAlert(title: "Wrong fomat!", message: "Please Enter correct value")
     }
+    
 }
-

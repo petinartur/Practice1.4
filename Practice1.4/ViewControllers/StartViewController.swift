@@ -7,51 +7,22 @@
 
 import UIKit
 
-protocol backgorundColorDelegate {
-    func setColot(red: CGFloat, green: CGFloat, blue: CGFloat)
+protocol ColorViewControllerDelegate {
+    func setColor(_ color: UIColor)
 }
 
 class StartViewController: UIViewController {
-    
-    var red: CGFloat = 0
-    var green: CGFloat = 0
-    var blue: CGFloat = 0
-    
-     func vorkWithColor() {
-        let backgroundcolod: UIColor = view.backgroundColor!
-        let myColorComponents = backgroundcolod.components
-        red = myColorComponents.red
-        green = myColorComponents.green
-        blue = myColorComponents.blue
-    }
-    
-
-    @IBAction func unwind(segue: UIStoryboardSegue) {}
-    
-    
+        
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let colorVC = segue.destination as? ColorViewController else {return}
-        vorkWithColor()
         colorVC.delegate = self
-        colorVC.red = red
-        colorVC.blue = blue
-        colorVC.green = green
+        colorVC.viewColor = view.backgroundColor
     }
 
 }
 
-extension UIColor {
-    var coreImageColor: CIColor {
-        return CIColor(color: self)
-    }
-    var components: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) {
-        let coreImageColor = self.coreImageColor
-        return (coreImageColor.red, coreImageColor.green, coreImageColor.blue, coreImageColor.alpha)
-    }
-}
-
-extension StartViewController: backgorundColorDelegate {
-    func setColot(red: CGFloat, green: CGFloat, blue: CGFloat) {
-        view.backgroundColor = UIColor(red: red, green: green, blue: blue, alpha: 1)
+extension StartViewController: ColorViewControllerDelegate {
+    func setColor(_ color: UIColor) {
+        view.backgroundColor = color
     }
 }

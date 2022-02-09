@@ -27,7 +27,7 @@
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="Поменять цвет"/>
                                 <connections>
-                                    <segue destination="BYZ-38-t0r" kind="show" id="4UA-IV-0DO"/>
+                                    <segue destination="BYZ-38-t0r" kind="showDetail" id="4UA-IV-0DO"/>
                                 </connections>
                             </button>
                         </barButtonItem>
@@ -40,20 +40,20 @@
         <!--Color View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ColorViewController" customModule="Practice1_4" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="BYZ-38-t0r" customClass="ColorViewController" customModule="Practice1_4" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8gw-BA-dBJ">
-                                <rect key="frame" x="20" y="108" width="388" height="200"/>
+                                <rect key="frame" x="20" y="64" width="388" height="200"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="Qka-rS-Jsd"/>
                                 </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="dMA-pw-OUI">
-                                <rect key="frame" x="20" y="358" width="388" height="132"/>
+                                <rect key="frame" x="20" y="314" width="388" height="132"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="h6a-Mq-KRT">
                                         <rect key="frame" x="0.0" y="14.666666666666686" width="0.0" height="103"/>
@@ -162,7 +162,6 @@
                                 <buttonConfiguration key="configuration" style="plain" title="Done"/>
                                 <connections>
                                     <action selector="DoneButtonPressed" destination="BYZ-38-t0r" eventType="touchUpInside" id="nUK-67-nYE"/>
-                                    <segue destination="7z7-8b-CJG" kind="unwind" unwindAction="unwindWithSegue:" id="ppY-L7-daA"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -185,17 +184,16 @@
                         <outlet property="bleuLabel" destination="9at-CZ-k87" id="ht0-aC-xh9"/>
                         <outlet property="blueSlider" destination="lDK-By-NzE" id="LMx-eo-rRb"/>
                         <outlet property="blueTextField" destination="LzK-de-vOb" id="0wX-JD-PAx"/>
+                        <outlet property="colorView" destination="8gw-BA-dBJ" id="ifm-8S-z2h"/>
                         <outlet property="greenLabel" destination="Plp-n4-tU8" id="ky1-VM-Z43"/>
                         <outlet property="greenSlider" destination="ass-YA-cLV" id="Rqa-gu-EHV"/>
                         <outlet property="greenTextField" destination="zM0-ki-oe6" id="frB-ok-YZq"/>
                         <outlet property="redLabel" destination="5rL-QF-lC1" id="JxC-Q7-Beh"/>
                         <outlet property="redSlider" destination="qlu-uH-uDg" id="vkN-Zo-HTb"/>
                         <outlet property="redTextField" destination="hSd-za-0j7" id="Btk-U8-9YY"/>
-                        <outlet property="viewColor" destination="8gw-BA-dBJ" id="ifm-8S-z2h"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <exit id="7z7-8b-CJG" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1706" y="50"/>
         </scene>
